@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "AOC2022"
+description = "cool. cool cool cool."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = ["pyyaml~=6.0"]
+dynamic = ["version"]
+
+[tool.setuptools.package-data]
+"aoc.input" = ["*"]
+"aoc.demo_data" = ["*"]
+
+[project.scripts]
+aoc1 = "aoc.day01:run"
+aoc2 = "aoc.day02:run"
+aoc3 = "aoc.day03:run"
+aoc4 = "aoc.day04:run"
+aoc5 = "aoc.day05:run"
+aoc6 = "aoc.day06:run"
+aoc7 = "aoc.day07:run"
+aoc8 = "aoc.day08:run"
+aoc9 = "aoc.day09:run"
+aoc10 = "aoc.day10:run"
+aoc11 = "aoc.day11:run"
+aoc12 = "aoc.day12:run"
+aoc13 = "aoc.day13:run"
+aoc14 = "aoc.day14:run"
+aoc15 = "aoc.day15:run"
+aoc16 = "aoc.day16:run"
+aoc17 = "aoc.day17:run"
+aoc18 = "aoc.day18:run"
+aoc19 = "aoc.day19:run"
+aoc20 = "aoc.day20:run"
+aoc21 = "aoc.day21:run"
+aoc22 = "aoc.day22:run"
+aoc23 = "aoc.day23:run"
+aoc24 = "aoc.day24:run"
+aoc25 = "aoc.day25:run"
+aoc26 = "aoc.day26:run"
+aoc27 = "aoc.day27:run"
+aoc28 = "aoc.day28:run"
+aoc29 = "aoc.day29:run"
+
+
+[project.optional-dependencies]
+test = ["pytest"]
