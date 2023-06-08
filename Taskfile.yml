@@ -1,0 +1,62 @@
+version: '3'
+
+# Todo deps to check aws connectivity
+
+vars:
+  VENV: .venv
+  needs_test_env:
+    # use bash here to make use of pipefail
+    sh: bash -c ' tox --version > /dev/null 2>&1; echo $?'
+  activate_env:
+    sh: test {{.needs_test_env}} = 0 || echo "VIRTUAL_ENV_DISABLE_PROMPT=1 source {{.VENV}}/bin/activate && " 
+
+tasks:
+
+  test_env:
+    run: once
+    status:
+      - 'test -d {{.VENV}}'
+    deps:
+      - task: clean_venv
+        vars: 
+          KEEP_ENV:
+            sh: 'test -z "{{.RECREATE_ENV | default ""}}" && echo "yes" || echo ""'
+    cmds:
+      - VIRTUAL_ENV_DISABLE_PROMPT=1 python3 -m venv {{.VENV}}
+
+  install_tox_in_test_env:
+    deps:
+      - test_env
+    run: once
+    status:
+      - '{{.activate_env}} tox --version'
+    cmds:
+      - '{{.activate_env}} pip install tox'
+
+  clean:
+    run: once
+    deps:
+      - clean_venv
+    cmds:
+      - rm -rf .tox .pytest_cache build
+
+  clean_venv:
+    run: once
+    vars:
+      KEEP_ENV: '{{.KEEP_ENV | default ""}}'
+    status:
+      - 'test -n "{{.KEEP_ENV}}" && test -d {{.VENV}}'
+    cmds:
+      - 'rm -rf {{.VENV}}'
+
+  test:
+    deps:
+      - test_env
+      - install_tox_in_test_env
+    run: once
+    cmds:
+      - '{{.activate_env}}VIRTUAL_ENV_DISABLE_PROMPT=1 tox {{.CLI_ARGS}}'
+
+
+
+  
